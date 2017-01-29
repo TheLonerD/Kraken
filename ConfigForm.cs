@@ -33,6 +33,7 @@ namespace Kraken
             framerate.Value = kraken.Framerate;
             frameskip.Value = kraken.Frameskip;
             showfps.Checked = kraken.ShowFPS;
+            randomize.Checked = kraken.Randomize;
 
             switch (kraken.Letterbox)
             {
@@ -77,7 +78,8 @@ namespace Kraken
             cfg.SetInt("layer1", kraken.Layer0Index);
             cfg.SetInt("layer2", kraken.Layer1Index);
             cfg.SetInt("letterbox", kraken.Letterbox);
-            cfg.SetInt("showfps", (showfps.Checked ? 1 : 0));
+            cfg.SetInt("showfps", showfps.Checked ? 1 : 0);
+            cfg.SetInt("randomize", randomize.Checked ? 1 : 0);
             cfg.Save();
             cfg.Close();
             Close();
@@ -121,8 +123,6 @@ namespace Kraken
                 case 3: // 8:3
                     kraken.Letterbox = 64; break;
             }
-            //preview = new Bitmap(256, 224, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            //pictureBox1.Image = preview;
         }
 
         private void blank1_Click(object sender, EventArgs e)
@@ -133,6 +133,16 @@ namespace Kraken
         private void blank2_Click(object sender, EventArgs e)
         {
             layer2.Value = 0;
+        }
+
+        private void randomize_CheckedChanged(object sender, EventArgs e)
+        {
+            kraken.Randomize = randomize.Checked;
+
+            layer1.Enabled = !randomize.Checked;
+            layer2.Enabled = !randomize.Checked;
+            blank1.Enabled = !randomize.Checked;
+            blank2.Enabled = !randomize.Checked;
         }
     }
 }

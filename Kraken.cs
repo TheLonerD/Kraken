@@ -21,6 +21,7 @@ namespace Kraken
         private int letterbox;
         private int frameskip = 1;
         private bool showfps;
+        private bool randomize;
 
         private Bitmap bmp;
         private int tick = 0;
@@ -31,6 +32,7 @@ namespace Kraken
         private SharpDX.Direct3D9.Font font = null;
         TransformedColoredTextured[] vertexes = new TransformedColoredTextured[4];
 
+        private static Random random = new Random();
 
         // Entry point
         [STAThread]
@@ -53,7 +55,6 @@ namespace Kraken
 
             Screensaver ss = new Kraken();
             ss.Run();
-            //ss.Run(ScreensaverMode.Settings);
         }
 
 
@@ -177,6 +178,15 @@ namespace Kraken
         {
             get { return frameskip; }
             set { frameskip = value; }
+        }
+
+        /// <summary>
+        /// Randomize battle backgrounds every launch
+        /// </summary>
+        public bool Randomize
+        {
+            get { return randomize; }
+            set { randomize = value; }
         }
 
         #endregion
@@ -368,16 +378,18 @@ namespace Kraken
                     d.EndScene();
                     d.Present();
                 }
-                catch
+                catch (Exception)
                 {
-                    // Silent all errors
+
                 }
             }
             texture.Dispose();
 
             // Eh, sort of a hack. Prevent memory from bloating too much.
             if ((tick % 60) == 0)
+            {
                 GC.Collect();
+            }
         }
 
 
@@ -418,6 +430,16 @@ namespace Kraken
             int bshow = cfg.GetInt("showfps");
             showfps = bshow != 0;
             if (bshow == -1) showfps = false;
+
+            int brandomize = cfg.GetInt("randomize");
+            randomize = brandomize != 0;
+            if (brandomize == -1) randomize = false;
+
+            if (randomize)
+            {
+                n0 = random.Next(1, 327);
+                n1 = random.Next(1, 327);
+            }
 
             try
             {

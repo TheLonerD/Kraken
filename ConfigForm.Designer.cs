@@ -49,6 +49,7 @@ namespace Kraken
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.ButtonOK = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
+            this.randomize = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.layer1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layer2)).BeginInit();
@@ -83,6 +84,7 @@ namespace Kraken
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.randomize);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.letterbox);
             this.groupBox1.Controls.Add(this.blank2);
@@ -300,6 +302,17 @@ namespace Kraken
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
             // 
+            // randomize
+            // 
+            this.randomize.AutoSize = true;
+            this.randomize.Location = new System.Drawing.Point(173, 64);
+            this.randomize.Name = "randomize";
+            this.randomize.Size = new System.Drawing.Size(79, 17);
+            this.randomize.TabIndex = 13;
+            this.randomize.Text = "Randomize";
+            this.randomize.UseVisualStyleBackColor = true;
+            this.randomize.CheckedChanged += new System.EventHandler(this.randomize_CheckedChanged);
+            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -350,5 +363,6 @@ namespace Kraken
         private System.Windows.Forms.Button blank1;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox letterbox;
+        private System.Windows.Forms.CheckBox randomize;
     }
 }
