@@ -3,23 +3,23 @@ using System.Windows.Forms;
 
 namespace PKHack
 {
-	public abstract class RomObjectHandler
-	{
-		public abstract void ReadClass(Rom rom);
-		public abstract void WriteClass(Rom rom);
-	}
+    public abstract class RomObjectHandler
+    {
+        public abstract void ReadClass(Rom rom);
+        public abstract void WriteClass(Rom rom);
+    }
 
 
-	/*
-	 * Base class for most game object classes
-	 */
-	public abstract class RomObject
-	{
+    /*
+     * Base class for most game object classes
+     */
+    public abstract class RomObject
+    {
         private Rom parent;
-		private String id;
+        private String id;
 
-		protected int address;
-		protected int index;
+        protected int address;
+        protected int index;
 
         /*
          * Properties
@@ -29,52 +29,52 @@ namespace PKHack
             get { return parent; }
             set
             {
-				parent = value;
+                parent = value;
 
-				// TODO: this also needs to update the new and old
-				// parents
+                // TODO: this also needs to update the new and old
+                // parents
             }
         }
 
-		public String ID
-		{
-			get { return id; }
-			set
-			{
-				id = value;
-			}
-		}
+        public String ID
+        {
+            get { return id; }
+            set
+            {
+                id = value;
+            }
+        }
 
-		public int Index 
-		{
-			get
-			{
-				return index;
-			}
-		}
+        public int Index
+        {
+            get
+            {
+                return index;
+            }
+        }
 
-		public int Address 
-		{
-			get
-			{
-				return address;
-			}
-		}
+        public int Address
+        {
+            get
+            {
+                return address;
+            }
+        }
 
 
 
-		/*
-		 * Methods
-		 */
-		public static void ReadClassFromRom(Rom rom)
-		{
-			throw new Exception("RomObject classes must implement a new static ReadClass method!");
-		}
+        /*
+         * Methods
+         */
+        public static void ReadClassFromRom(Rom rom)
+        {
+            throw new Exception("RomObject classes must implement a new static ReadClass method!");
+        }
 
-		public static void WriteClass(Rom rom)
-		{
-			throw new Exception("RomObject classes must implement a new static WriteClass method!");
-		}
+        public static void WriteClass(Rom rom)
+        {
+            throw new Exception("RomObject classes must implement a new static WriteClass method!");
+        }
 
 
         // Called when this object is added to a ROM, I guess
@@ -88,7 +88,7 @@ namespace PKHack
             MessageBox.Show("I am a " + GetType().Name);
         }
 
-		public abstract void Read(int index);
-		public abstract void Write(int index);
-	}
+        public abstract void Read(int index);
+        public abstract void Write(int index);
+    }
 }
