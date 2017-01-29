@@ -6,6 +6,7 @@ using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.Reflection;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 
 namespace Kraken
@@ -31,8 +32,6 @@ namespace Kraken
         private Direct3D direct3d;
         private SharpDX.Direct3D9.Font font = null;
         TransformedColoredTextured[] vertexes = new TransformedColoredTextured[4];
-
-        private static Random random = new Random();
 
         // Entry point
         [STAThread]
@@ -437,8 +436,8 @@ namespace Kraken
 
             if (randomize)
             {
-                n0 = random.Next(1, 327);
-                n1 = random.Next(1, 327);
+                n0 = NextInt(1, 327);
+                n1 = NextInt(1, 327);
             }
 
             try
@@ -450,6 +449,17 @@ namespace Kraken
             {
                 MessageBox.Show("Config error: couldn't load background layers.\n\n" + e.Message);
             }
+        }
+
+        private static int NextInt(int min, int max)
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] buffer = new byte[4];
+
+            rng.GetBytes(buffer);
+            int result = BitConverter.ToInt32(buffer, 0);
+
+            return new Random(result).Next(min, max);
         }
     }
 }
