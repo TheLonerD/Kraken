@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 
 namespace PKHack
@@ -9,8 +8,8 @@ namespace PKHack
 
         public struct Editor
         {
-            public String Name;
-            public String TypeName;
+            public string Name;
+            public string TypeName;
             public EditorDelegate Show;
 
             public override string ToString()
@@ -29,7 +28,7 @@ namespace PKHack
             }
         }
 
-        public static void RegisterEditor(String id, String type, EditorDelegate del)
+        public static void RegisterEditor(string id, string type, EditorDelegate del)
         {
             Editor e = new Editor();
             e.Name = id;

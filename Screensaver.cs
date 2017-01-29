@@ -198,18 +198,14 @@ namespace Screensavers
             if (screensaverMode == ScreensaverMode.Preview && !IsWindowVisible(windowHandle))
             {
                 StopUpdating();
-                if (Exit != null)
-                    Exit(this, new EventArgs());
+                Exit?.Invoke(this, new EventArgs());
                 previewShutdownEvent.Set();
                 return;
             }
 
-            if (PreUpdate != null)
-                PreUpdate(this, new EventArgs());
-            if (Update != null)
-                Update(this, new EventArgs());
-            if (PostUpdate != null)
-                PostUpdate(this, new EventArgs());
+            PreUpdate?.Invoke(this, new EventArgs());
+            Update?.Invoke(this, new EventArgs());
+            PostUpdate?.Invoke(this, new EventArgs());
             updatesThisSec++;
         }
 
@@ -618,8 +614,7 @@ namespace Screensavers
 
         void InitializeAndStart()
         {
-            if (Initialize != null)
-                Initialize(this, new EventArgs());
+            Initialize?.Invoke(this, new EventArgs());
 
             if (Window0 != null && Window0.Form != null)
                 Window0.Form.FormClosing += new FormClosingEventHandler(Form_FormClosing);
@@ -710,7 +705,6 @@ namespace Screensavers
                 this.handle = handle;
                 this.graphics = Graphics.FromHwnd(handle);
                 this.size = GetWindowRect(handle).Size;
-                //this.size = GetClientRect(handle).Size;
 
                 this.screensaver.PreUpdate += new EventHandler(screensaver_PreUpdate);
                 this.screensaver.PostUpdate += new EventHandler(screensaver_PostUpdate);
@@ -782,57 +776,49 @@ namespace Screensavers
 
             void form_KeyPress(object sender, KeyPressEventArgs e)
             {
-                if (KeyPress != null)
-                    KeyPress(this, e);
+                KeyPress?.Invoke(this, e);
                 screensaver.OnKeyboardInput();
             }
 
             void form_KeyUp(object sender, KeyEventArgs e)
             {
-                if (KeyUp != null)
-                    KeyUp(this, e);
+                KeyUp?.Invoke(this, e);
                 screensaver.OnKeyboardInput();
             }
 
             void form_KeyDown(object sender, KeyEventArgs e)
             {
-                if (KeyDown != null)
-                    KeyDown(this, e);
+                KeyDown?.Invoke(this, e);
                 screensaver.OnKeyboardInput();
             }
 
             void form_MouseWheel(object sender, MouseEventArgs e)
             {
-                if (MouseWheel != null)
-                    MouseWheel(this, e);
+                MouseWheel?.Invoke(this, e);
                 screensaver.OnMouseClick();
             }
 
             void form_MouseUp(object sender, MouseEventArgs e)
             {
-                if (MouseUp != null)
-                    MouseUp(this, e);
+                MouseUp?.Invoke(this, e);
                 screensaver.OnMouseClick();
             }
 
             void form_MouseDown(object sender, MouseEventArgs e)
             {
-                if (MouseDown != null)
-                    MouseDown(this, e);
+                MouseDown?.Invoke(this, e);
                 screensaver.OnMouseClick();
             }
 
             void form_MouseDoubleClick(object sender, MouseEventArgs e)
             {
-                if (MouseDoubleClick != null)
-                    MouseDoubleClick(this, e);
+                MouseDoubleClick?.Invoke(this, e);
                 screensaver.OnMouseClick();
             }
 
             void form_MouseClick(object sender, MouseEventArgs e)
             {
-                if (MouseClick != null)
-                    MouseClick(this, e);
+                MouseClick?.Invoke(this, e);
                 screensaver.OnMouseClick();
             }
 
@@ -841,8 +827,7 @@ namespace Screensavers
 
             void form_MouseMove(object sender, MouseEventArgs e)
             {
-                if (MouseMove != null)
-                    MouseMove(this, e);
+                MouseMove?.Invoke(this, e);
 
                 if (mousePosition == Point.Empty)
                     mousePosition = e.Location;
@@ -1017,7 +1002,7 @@ namespace Screensavers
 
             #region IEnumerable Members
 
-            System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+            IEnumerator IEnumerable.GetEnumerator()
             {
                 return windows.GetEnumerator();
             }

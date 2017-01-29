@@ -1,7 +1,7 @@
-using Microsoft.DirectX;
-using Microsoft.DirectX.Direct3D;
 using PKHack;
 using Screensavers;
+using SharpDX;
+using SharpDX.Direct3D9;
 using System;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -27,8 +27,9 @@ namespace Kraken
 
         // DirectX stuff
         private Device[] display;
-        private Microsoft.DirectX.Direct3D.Font font = null;
-        CustomVertex.TransformedColoredTextured[] vertexes = new CustomVertex.TransformedColoredTextured[4];
+        private Direct3D direct3d;
+        private SharpDX.Direct3D9.Font font = null;
+        TransformedColoredTextured[] vertexes = new TransformedColoredTextured[4];
 
 
         // Entry point
@@ -187,6 +188,7 @@ namespace Kraken
         /// </summary>
         private void InitDirect3D()
         {
+            direct3d = new Direct3D();
             display = new Device[Windows.Count];
 
             for (int i = 0; i < Windows.Count; i++)
@@ -200,7 +202,7 @@ namespace Kraken
                  */
                 try
                 {
-                    display[i] = new Device(
+                    display[i] = new Device(direct3d,
                        window.DeviceIndex, DeviceType.Hardware,
                        window.Handle, CreateFlags.SoftwareVertexProcessing, pp);
                     continue;
@@ -212,7 +214,7 @@ namespace Kraken
                  */
                 try
                 {
-                    display[i] = new Device(
+                    display[i] = new Device(direct3d,
                        window.DeviceIndex, DeviceType.Software,
                        window.Handle, CreateFlags.SoftwareVertexProcessing, pp);
                 }
@@ -222,8 +224,8 @@ namespace Kraken
                     Application.Exit();
                 }
             }
-            font = new Microsoft.DirectX.Direct3D.Font(
-               display[0], System.Drawing.SystemFonts.DefaultFont);
+            font = new SharpDX.Direct3D9.Font(
+               display[0], new FontDescription() { FaceName = SystemFonts.DefaultFont.Name });
         }
 
 
@@ -241,11 +243,11 @@ namespace Kraken
                 pp.Windowed = false;
                 pp.BackBufferCount = 1;
                 pp.BackBufferWidth =
-                   Manager.Adapters[deviceIndex].CurrentDisplayMode.Width;
+                    direct3d.Adapters[deviceIndex].CurrentDisplayMode.Width;
                 pp.BackBufferHeight =
-                   Manager.Adapters[deviceIndex].CurrentDisplayMode.Height;
+                   direct3d.Adapters[deviceIndex].CurrentDisplayMode.Height;
                 pp.BackBufferFormat =
-                   Manager.Adapters[deviceIndex].CurrentDisplayMode.Format;
+                   direct3d.Adapters[deviceIndex].CurrentDisplayMode.Format;
             }
 
             pp.SwapEffect = SwapEffect.Flip;
@@ -260,11 +262,11 @@ namespace Kraken
         Texture TextureFromBitmap(Bitmap bmp)
         {
             Texture texture = new Texture(display[0], bmp.Width, bmp.Height, 1, Usage.Dynamic, Format.A8R8G8B8, Pool.Default);
-            Microsoft.DirectX.GraphicsStream a = texture.LockRectangle(0, LockFlags.None);
-            BitmapData bd = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            DataRectangle a = texture.LockRectangle(0, LockFlags.None);
+            BitmapData bd = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
             unsafe
             {
-                uint* to = (uint*)a.InternalDataPointer;
+                uint* to = (uint*)a.DataPointer;
                 uint* from = (uint*)bd.Scan0.ToPointer();
                 for (int i = 0; i < bd.Height * bd.Width; ++i)
                 {
@@ -273,7 +275,6 @@ namespace Kraken
             }
             texture.UnlockRectangle(0);
             bmp.UnlockBits(bd);
-            a.Dispose();
             return texture;
         }
 
@@ -283,22 +284,26 @@ namespace Kraken
         /// </summary>
         private void InitVertexes()
         {
-            vertexes[0].Position = new Vector4(0, 0, 0, 1.0f);
+            vertexes[0].Position = new Vector3(0, 0, 0);
+            vertexes[0].Rhw = 1.0f;
             vertexes[0].Tu = 0;
             vertexes[0].Tv = 0;
             vertexes[0].Color = -1;
 
-            vertexes[1].Position = new Vector4(512, 0, 0, 1.0f);
+            vertexes[1].Position = new Vector3(512, 0, 0);
+            vertexes[1].Rhw = 1.0f;
             vertexes[1].Tu = 1;
             vertexes[1].Tv = 0;
             vertexes[1].Color = -1;
 
-            vertexes[2].Position = new Vector4(512, 512, 0, 1.0f);
+            vertexes[2].Position = new Vector3(512, 512, 0);
+            vertexes[2].Rhw = 1.0f;
             vertexes[2].Tu = 1;
             vertexes[2].Tv = 0.875f;
             vertexes[2].Color = -1;
 
-            vertexes[3].Position = new Vector4(0, 512, 0, 1.0f);
+            vertexes[3].Position = new Vector3(0, 512, 0);
+            vertexes[3].Rhw = 1.0f;
             vertexes[3].Tu = 0;
             vertexes[3].Tv = 0.875f;
             vertexes[3].Color = -1;
@@ -313,11 +318,11 @@ namespace Kraken
             int h = height;
             int w = width;
             int x = 0;
-            int y = 0; ;
-            vertexes[0].Position = new Vector4(x, y, 0, 1);
-            vertexes[1].Position = new Vector4(x + w, y, 0, 1);
-            vertexes[2].Position = new Vector4(x + w, y + h, 0, 1);
-            vertexes[3].Position = new Vector4(x, y + h, 0, 1);
+            int y = 0;
+            vertexes[0].Position = new Vector3(x, y, 0);
+            vertexes[1].Position = new Vector3(x + w, y, 0);
+            vertexes[2].Position = new Vector3(x + w, y + h, 0);
+            vertexes[3].Position = new Vector3(x, y + h, 0);
         }
 
 
@@ -347,29 +352,25 @@ namespace Kraken
                     d.TestCooperativeLevel();
 
                     // Clear the screen and draw crap
-                    d.Clear(ClearFlags.Target, System.Drawing.Color.Black, 0, 0);
+                    d.Clear(ClearFlags.Target, ColorBGRA.FromRgba(System.Drawing.Color.Black.ToArgb()), 0, 0);
                     d.BeginScene();
 
                     StretchVertexes(w.Size.Width, w.Size.Height);
 
-                    d.VertexFormat = CustomVertex.TransformedColoredTextured.Format;
+                    d.VertexFormat = TransformedColoredTextured.Format;
                     d.SetTexture(0, texture);
                     d.DrawUserPrimitives(PrimitiveType.TriangleFan, 2, vertexes);
 
                     if (showfps)
                         font.DrawText(null, "FPS: " + AchievedFramerate, 0, 0,
-                                  System.Drawing.Color.White.ToArgb());
+                                  ColorBGRA.FromRgba(System.Drawing.Color.White.ToArgb()));
 
                     d.EndScene();
                     d.Present();
                 }
-                catch (DeviceLostException)
+                catch
                 {
-                    System.Threading.Thread.Sleep(100);
-                }
-                catch (DeviceNotResetException)
-                {
-                    d.Reset(d.PresentationParameters);
+                    // Silent all errors
                 }
             }
             texture.Dispose();

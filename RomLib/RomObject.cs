@@ -16,7 +16,7 @@ namespace PKHack
     public abstract class RomObject
     {
         private Rom parent;
-        private String id;
+        private string id;
 
         protected int address;
         protected int index;
@@ -36,7 +36,7 @@ namespace PKHack
             }
         }
 
-        public String ID
+        public string ID
         {
             get { return id; }
             set

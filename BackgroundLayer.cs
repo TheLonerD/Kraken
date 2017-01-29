@@ -105,7 +105,7 @@ namespace Kraken
 
         private void InitializeBitmap()
         {
-            bmp = new Bitmap(256, 256, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            bmp = new Bitmap(256, 256, PixelFormat.Format32bppArgb);
             gfx.Draw(bmp, pal);
             distort.Original = bmp;
         }

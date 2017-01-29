@@ -32,6 +32,10 @@ namespace Kraken
             this.layer1 = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.letterbox = new System.Windows.Forms.ComboBox();
+            this.blank2 = new System.Windows.Forms.Button();
+            this.blank1 = new System.Windows.Forms.Button();
             this.label5 = new System.Windows.Forms.Label();
             this.layer2 = new System.Windows.Forms.NumericUpDown();
             this.label4 = new System.Windows.Forms.Label();
@@ -45,10 +49,6 @@ namespace Kraken
             this.ButtonCancel = new System.Windows.Forms.Button();
             this.ButtonOK = new System.Windows.Forms.Button();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
-            this.blank1 = new System.Windows.Forms.Button();
-            this.blank2 = new System.Windows.Forms.Button();
-            this.letterbox = new System.Windows.Forms.ComboBox();
-            this.label6 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.layer1)).BeginInit();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.layer2)).BeginInit();
@@ -103,6 +103,50 @@ namespace Kraken
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Options";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(22, 122);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(63, 13);
+            this.label6.TabIndex = 12;
+            this.label6.Text = "Aspect ratio";
+            // 
+            // letterbox
+            // 
+            this.letterbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.letterbox.FormattingEnabled = true;
+            this.letterbox.Items.AddRange(new object[] {
+            "Full screen (8:7)",
+            "Wide letterbox (4:3)",
+            "Medium letterbox (2:1)",
+            "Narrow letterbox (8:3)"});
+            this.letterbox.Location = new System.Drawing.Point(25, 138);
+            this.letterbox.Name = "letterbox";
+            this.letterbox.Size = new System.Drawing.Size(200, 21);
+            this.letterbox.TabIndex = 11;
+            this.letterbox.SelectedIndexChanged += new System.EventHandler(this.letterbox_SelectedIndexChanged);
+            // 
+            // blank2
+            // 
+            this.blank2.Location = new System.Drawing.Point(150, 85);
+            this.blank2.Name = "blank2";
+            this.blank2.Size = new System.Drawing.Size(75, 22);
+            this.blank2.TabIndex = 10;
+            this.blank2.Text = "Blank";
+            this.blank2.UseVisualStyleBackColor = true;
+            this.blank2.Click += new System.EventHandler(this.blank2_Click);
+            // 
+            // blank1
+            // 
+            this.blank1.Location = new System.Drawing.Point(150, 36);
+            this.blank1.Name = "blank1";
+            this.blank1.Size = new System.Drawing.Size(75, 22);
+            this.blank1.TabIndex = 10;
+            this.blank1.Text = "Blank";
+            this.blank1.UseVisualStyleBackColor = true;
+            this.blank1.Click += new System.EventHandler(this.blank1_Click);
             // 
             // label5
             // 
@@ -256,50 +300,6 @@ namespace Kraken
             this.pictureBox2.TabIndex = 5;
             this.pictureBox2.TabStop = false;
             // 
-            // blank1
-            // 
-            this.blank1.Location = new System.Drawing.Point(150, 36);
-            this.blank1.Name = "blank1";
-            this.blank1.Size = new System.Drawing.Size(75, 22);
-            this.blank1.TabIndex = 10;
-            this.blank1.Text = "Blank";
-            this.blank1.UseVisualStyleBackColor = true;
-            this.blank1.Click += new System.EventHandler(this.blank1_Click);
-            // 
-            // blank2
-            // 
-            this.blank2.Location = new System.Drawing.Point(150, 85);
-            this.blank2.Name = "blank2";
-            this.blank2.Size = new System.Drawing.Size(75, 22);
-            this.blank2.TabIndex = 10;
-            this.blank2.Text = "Blank";
-            this.blank2.UseVisualStyleBackColor = true;
-            this.blank2.Click += new System.EventHandler(this.blank2_Click);
-            // 
-            // letterbox
-            // 
-            this.letterbox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.letterbox.FormattingEnabled = true;
-            this.letterbox.Items.AddRange(new object[] {
-            "Full screen (8:7)",
-            "Wide letterbox (4:3)",
-            "Medium letterbox (2:1)",
-            "Narrow letterbox (8:3)"});
-            this.letterbox.Location = new System.Drawing.Point(25, 138);
-            this.letterbox.Name = "letterbox";
-            this.letterbox.Size = new System.Drawing.Size(200, 21);
-            this.letterbox.TabIndex = 11;
-            this.letterbox.SelectedIndexChanged += new System.EventHandler(this.letterbox_SelectedIndexChanged);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(22, 122);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(63, 13);
-            this.label6.TabIndex = 12;
-            this.label6.Text = "Aspect ratio";
-            // 
             // ConfigForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -310,7 +310,10 @@ namespace Kraken
             this.Controls.Add(this.ButtonCancel);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.MaximizeBox = false;
             this.Name = "ConfigForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Kraken Configuration";
             ((System.ComponentModel.ISupportInitialize)(this.layer1)).EndInit();
             this.groupBox1.ResumeLayout(false);

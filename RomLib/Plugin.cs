@@ -17,7 +17,7 @@ namespace PKHack
         /// <summary>
         /// A descriptive name for the plugin
         /// </summary>
-        String Name { get; }
+        string Name { get; }
 
         /// <summary>
         /// Called to instruct a plugin to perform any initialization it requires
@@ -42,16 +42,16 @@ namespace PKHack
         }
 
 
-        public static void LoadPluginDirectory(String path)
+        public static void LoadPluginDirectory(string path)
         {
             if (!Directory.Exists(path))
                 throw new Exception("Error loading plugins directory: path invalid.");
 
-            String[] files = Directory.GetFiles(path, "*.dll");
+            string[] files = Directory.GetFiles(path, "*.dll");
 
             try
             {
-                foreach (String s in files)
+                foreach (string s in files)
                     LoadPlugin(s);
             }
             catch (Exception)
@@ -64,7 +64,7 @@ namespace PKHack
         /// Loads a plugin DLL
         /// </summary>
         /// <param name="path">The path to the plugin DLL.</param>
-        public static void LoadPlugin(String path)
+        public static void LoadPlugin(string path)
         {
             Assembly a = Assembly.LoadFile(path);
 

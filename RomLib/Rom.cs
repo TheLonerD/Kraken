@@ -31,7 +31,6 @@ namespace PKHack
         //  Size of data (if applicable)
         //private Rom rom;
         private byte[] data;
-        //private byte[] buffer;	// for write operations
         private int address;
         private int pointer;
         private int size;
@@ -50,7 +49,7 @@ namespace PKHack
         public void Write(int value)
         {
             if (pointer + sizeof(int) >= address + size)
-                throw new Exception("Block write overflow!");
+                throw new OverflowException("Block write overflow!");
             data[pointer++] = (byte)value;
             data[pointer++] = (byte)(value >> 8);
             data[pointer++] = (byte)(value >> 16);
@@ -60,7 +59,7 @@ namespace PKHack
         public void Write(short value)
         {
             if (pointer + sizeof(short) >= address + size)
-                throw new Exception("Block write overflow!");
+                throw new OverflowException("Block write overflow!");
             data[pointer++] = (byte)value;
             data[pointer++] = (byte)(value >> 8);
         }
@@ -68,7 +67,7 @@ namespace PKHack
         public void Write(byte value)
         {
             if (pointer + sizeof(byte) >= address + size)
-                throw new Exception("Block write overflow!");
+                throw new OverflowException("Block write overflow!");
             data[pointer++] = value;
         }
 
@@ -79,10 +78,10 @@ namespace PKHack
         /// <param name="value">An 'out' variable into which to read the data</param>
         public void Read(out int value)
         {
-            value = (int)(data[pointer++]
+            value = data[pointer++]
                 + (data[pointer++] << 8)
                 + (data[pointer++] << 16)
-                + (data[pointer++] << 24));
+                + (data[pointer++] << 24);
         }
 
         public void Read(out short value)
@@ -169,10 +168,7 @@ namespace PKHack
     /// This is used primarily for classes requiring the "Local" storage model,
     /// i.e., those which must have all their members stored in the same ROM bank.
     /// </summary>
-    public class LocalTicket
-    {
-
-    }
+    public class LocalTicket { }
 
 
     /// <summary>
@@ -201,7 +197,7 @@ namespace PKHack
         }
 
 
-        private static Dictionary<String, Entry> types = new Dictionary<String, Entry>();
+        private static Dictionary<string, Entry> types = new Dictionary<string, Entry>();
 
 
         /// <summary>
@@ -220,7 +216,7 @@ namespace PKHack
         /// <param name="id">A string that identifies this type of object. (Example: "EnemyGroup")</param>
         /// <param name="type">The type of the class representing this object.</param>
         /// <param name="handler">A RomObjectHandler-derived object that will handle loading and storing elements of the class being registered.</param>
-        public static void RegisterClass(String id, Type type, Type handlerType)
+        public static void RegisterClass(string id, Type type, Type handlerType)
         {
             // Check for collisions
             foreach (Entry e in types.Values)
@@ -249,7 +245,7 @@ namespace PKHack
         /// </summary>
         /// <param name="id">The identifier of the class to retrieve.</param>
         /// <returns>The class entry registered with the specified ID.</returns>
-        public Entry this[String id]
+        public Entry this[string id]
         {
             get
             {
@@ -282,16 +278,16 @@ namespace PKHack
         /*
          * Properties
          */
-        public Boolean IsLoaded
+        public bool IsLoaded
         {
             get { return loaded; }
         }
-        public String Filename
+        public string Filename
         {
             get { return filename; }
         }
 
-        public String MD5Hash
+        public string MD5Hash
         {
             get
             {
@@ -324,7 +320,7 @@ namespace PKHack
         /*
          * Static methods
          */
-        public static void RegisterType(String typeID, Type type, Type handler)
+        public static void RegisterType(string typeID, Type type, Type handler)
         {
             RomClasses.RegisterClass(typeID, type, handler);
         }
@@ -341,10 +337,8 @@ namespace PKHack
 
             foreach (KeyValuePair<Type, RomObjectHandler> kvp in handlers)
             {
-                //MessageBox.Show("Loading " + kvp.Key.Name);
                 kvp.Value.ReadClass(this);
             }
-
         }
         public void Open(string filename)
         {
@@ -354,11 +348,6 @@ namespace PKHack
                 FileStream stream = new FileStream(filename, FileMode.Open, FileAccess.ReadWrite);
 
                 Open(stream);
-
-                //data = new byte[stream.Length];
-                //stream.Read(data, 0, (int)stream.Length);
-
-                //loaded = true;
             }
             catch (Exception e)
             {
@@ -369,13 +358,6 @@ namespace PKHack
 
                 return;
             }
-
-            // Initialize and load all registered types
-            //foreach (RomClasses.Entry ClassEntry in RomClasses.Types)
-            //{
-            //	ClassEntry.Handler.ReadClass(this);
-            //}
-
         }
 
 
@@ -416,7 +398,7 @@ namespace PKHack
             }
         }
 
-        public RomObject GetObject(String typename, int index)
+        public RomObject GetObject(string typename, int index)
         {
             try
             {
@@ -440,7 +422,7 @@ namespace PKHack
             return objects[type];
         }
 
-        public List<RomObject> GetObjectsByType(String typeID)
+        public List<RomObject> GetObjectsByType(string typeID)
         {
             return objects[types[typeID].Type];
         }

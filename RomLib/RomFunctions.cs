@@ -146,9 +146,6 @@ namespace PKHack
                     case 0: // Uncompressed block
                         while (len-- != 0)
                             output[bpos++] = data[pos++];
-                        //Array.Copy(data, pos, output, bpos, len);
-                        //bpos += len;
-                        //pos += len;
                         break;
 
                     case 1: // RLE
