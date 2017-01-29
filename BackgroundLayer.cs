@@ -1,4 +1,4 @@
-﻿using PKHack;
+using PKHack;
 using System.Drawing;
 using System.Drawing.Imaging;
 

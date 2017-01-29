@@ -1,4 +1,4 @@
-﻿using Microsoft.DirectX;
+using Microsoft.DirectX;
 using Microsoft.DirectX.Direct3D;
 using PKHack;
 using Screensavers;
