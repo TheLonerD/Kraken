@@ -18,7 +18,7 @@ namespace PKHack
     /// <summary>
     /// Represents a chunk of the ROM's data requested by an object for reading or
     /// writing.
-    /// 
+    ///
     /// A requested block should always correspond exactly to an area of strictly
     /// contiguous data within an object.
     /// </summary>
@@ -164,7 +164,7 @@ namespace PKHack
     /// <summary>
     /// Represents a "reservation" of a large chunk of space in the ROM which
     /// can be used for multiple objects.
-    /// 
+    ///
     /// This is used primarily for classes requiring the "Local" storage model,
     /// i.e., those which must have all their members stored in the same ROM bank.
     /// </summary>
@@ -173,7 +173,7 @@ namespace PKHack
 
     /// <summary>
     /// Used to maintain a registry of available ROM object types.
-    /// 
+    ///
     /// This registry is static, but the class is declared non-static mainly
     /// so you can instantiate it and use its indexer. :P
     /// </summary>

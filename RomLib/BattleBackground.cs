@@ -8,7 +8,7 @@ namespace PKHack
     {
         /*
          * Background data table: $CADCA1
-         * 
+         *
          * 17 bytes per entry:
          * ===================
          * 0	Graphics/Arrangement index
@@ -28,7 +28,7 @@ namespace PKHack
          * 14	Effects
          * 15	Effects
          * 16	Effects
-         * 
+         *
          */
 
         private byte[] data = new byte[17];

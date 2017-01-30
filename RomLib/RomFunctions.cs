@@ -83,11 +83,10 @@ namespace PKHack
         //  -6		Out of ninjas error
         //  -7		Ask somebody else
         //  -8		Unexpected end of data
-        //public static 
 
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="start"></param>
         /// <param name="data"></param>

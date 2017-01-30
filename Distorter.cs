@@ -35,10 +35,10 @@ namespace PKHack
         /// <summary>
         /// Evaluates the distortion effect at the given destination line and
         /// time value and returns the computed offset value.
-        /// 
+        ///
         /// If the distortion mode is horizontal, this offset should be interpreted
         /// as the number of pixels to offset the given line's starting x position.
-        /// 
+        ///
         /// If the distortion mode is vertical, this offset should be interpreted as
         /// the y-coordinate of the line from the source bitmap to draw at the given
         /// y-coordinate in the destination bitmap.
@@ -166,7 +166,7 @@ namespace PKHack
         // There is some redundancy here: 'effect' is currently what is used
         // in computing frames, although really there should be a list of
         // four different effects ('dist') which are used in sequence.
-        // 
+        //
         // 'dist' is currently unused, but ComputeFrame should be changed to
         // make use of it as soon as the precise nature of effect sequencing
         // can be determined.
@@ -266,7 +266,7 @@ namespace PKHack
             // against the cumulative durations of each effect.
             //
             // I guess the trick is to be sure that my description above is correct.
-            // 
+            //
             // Heh.
 
             // First, count the total duration of the effects:

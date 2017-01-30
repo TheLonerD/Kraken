@@ -1,12 +1,12 @@
 #region Usage notice
 /*
  * Screensaver.cs
- * 
+ *
  * (c) Rei Miyasaka 2006
  * rei@thefraser.com
- * 
+ *
  * Last updated 2006.05.16
- * 
+ *
  * You may use this code for any purpose, in part or in whole, on two conditions:
  * 1. I cannot be held legally responsible for any damage or problems caused by this code.
  * 2. If you make something cool using this code, give me a shout and tell me about it.
